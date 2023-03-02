@@ -1,3 +1,7 @@
+#### Fork based on https://github.com/andrii-bodnar/action-crowdin-contributors
+Modified to output a machine-readable contributor list for in-app display.
+____________
+
 [<p align='center'><img src='/docs/logo.png' width='150' height='150' align='center'/></p>](https://github.com/andrii-bodnar/action-crowdin-contributors)
 
 # Crowdin Contributors [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fandrii-bodnar%2Faction-crowdin-contributors&text=A%20GitHub%20action%20to%20automate%20acknowledging%20translators%20and%20proofreaders%20to%20your%20projects%20in%20Crowdin%20%E2%9C%A8)&nbsp;[![GitHub Repo stars](https://img.shields.io/github/stars/andrii-bodnar/action-crowdin-contributors?style=social&cacheSeconds=1800)](https://github.com/andrii-bodnar/action-crowdin-contributors/stargazers)
