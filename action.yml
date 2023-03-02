@@ -1,10 +1,6 @@
-name: 'action-crowdin-contributors'
+name: 'action-crowdin-json-contributor-list-fork'
 description: 'Automate acknowledging translators and proofreaders to your open-source projects in Crowdin'
-author: 'Andrii Bodnar'
-
-branding:
-  icon: 'users'
-  color: 'yellow'
+author: 'Tim Schneeberger, Andrii Bodnar'
 
 inputs:
 
