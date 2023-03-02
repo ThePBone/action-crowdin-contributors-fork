@@ -32,6 +32,34 @@ export class Writer {
         core.info('The contributors table successfully updated!');
     }
 
+    public updateContributorsList(report: any[]): void {
+        core.info(`Creating list with ${report.length} contributor(s)...`);
+
+        let result = [];
+
+        for (let i = 0; i < report.length; i += 1) {
+            let user = report.at(i);
+            result.push({
+                id: user.id,
+                user: user.username,
+                name: user.name,
+                translated: user.translated,
+                approved: user.approved,
+                languages: user.languages
+            });
+        }
+
+        let json = JSON.stringify(result);
+
+        //const tableContent = this.renderReport(report);
+        //this.writeFiles(tableContent);
+
+        core.debug(json);
+        fs.writeFileSync('app/src/main/res/raw/translators.json', json);
+
+        core.info('The contributors list successfully updated!');
+    }
+
     private renderReport(report: any[]): string {
         let result = [];
         let html = '<table>';

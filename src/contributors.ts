@@ -14,6 +14,7 @@ export interface User {
     translated: string;
     approved: string;
     picture: string;
+    languages: string[];
 }
 
 export class Contributors {
@@ -38,6 +39,7 @@ export class Contributors {
         const preparedData = await this.prepareData(reportResults);
 
         this.writer.updateContributorsTable(preparedData);
+        this.writer.updateContributorsList(preparedData);
 
         core.setOutput('contributors_table', this.writer.getTableContent());
     }
@@ -134,13 +136,19 @@ export class Contributors {
                 //the account might be private, that produces 404 exception
             }
 
+            let languages: string[] = [];
+            for (let lang of user.languages) {
+                languages.push(lang.id);
+            }
+
             result.push({
                 id: user.user.id,
                 username: user.user.username,
                 name: user.user.fullName,
                 translated: user.translated,
                 approved: user.approved,
-                picture: picture
+                picture: picture,
+                languages: languages
             });
 
             if (result.length === this.config.maxContributors) {

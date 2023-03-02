@@ -63,6 +63,7 @@ class Contributors {
             core.info(`Found ${reportResults.length} user(s), preparing the data...`);
             const preparedData = yield this.prepareData(reportResults);
             this.writer.updateContributorsTable(preparedData);
+            this.writer.updateContributorsList(preparedData);
             core.setOutput('contributors_table', this.writer.getTableContent());
         });
     }
@@ -133,13 +134,18 @@ class Contributors {
                 catch (e) {
                     //the account might be private, that produces 404 exception
                 }
+                let languages = [];
+                for (let lang of user.languages) {
+                    languages.push(lang.id);
+                }
                 result.push({
                     id: user.user.id,
                     username: user.user.username,
                     name: user.user.fullName,
                     translated: user.translated,
                     approved: user.approved,
-                    picture: picture
+                    picture: picture,
+                    languages: languages
                 });
                 if (result.length === this.config.maxContributors) {
                     break;
@@ -367,6 +373,27 @@ class Writer {
         this.tableContent = tableContent;
         this.addJobSummary();
         core.info('The contributors table successfully updated!');
+    }
+    updateContributorsList(report) {
+        core.info(`Creating list with ${report.length} contributor(s)...`);
+        let result = [];
+        for (let i = 0; i < report.length; i += 1) {
+            let user = report.at(i);
+            result.push({
+                id: user.id,
+                user: user.username,
+                name: user.name,
+                translated: user.translated,
+                approved: user.approved,
+                languages: user.languages
+            });
+        }
+        let json = JSON.stringify(result);
+        //const tableContent = this.renderReport(report);
+        //this.writeFiles(tableContent);
+        core.debug(json);
+        fs_1.default.writeFileSync("app/src/main/res/raw/translators.json", json);
+        core.info('The contributors list successfully updated!');
     }
     renderReport(report) {
         let result = [];
