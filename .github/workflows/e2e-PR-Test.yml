@@ -1,0 +1,31 @@
+name: 'e2e-pr-test'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          max_contributors: 10
+          min_words_contributed: 1
+          placeholder_start: '<!-- TEST-CONTRIBUTORS-START -->'
+          placeholder_end: '<!-- TEST-CONTRIBUTORS-END -->'
+          files: ./__tests__/files/contributors.md
+          crowdin_project_link: 'https://crowdin.com/project/crowdin'
+        env:
+          CROWDIN_PROJECT_ID: 2
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+          CROWDIN_ORGANIZATION: ${{ secrets.CROWDIN_ORGANIZATION }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: Update Crowdin Contributors table
+          body: By [action-crowdin-contributors](https://github.com/andrii-bodnar/action-crowdin-contributors) GitHub action
+          commit-message: Update Crowdin Contributors table
+          committer: Crowdin Bot <support+bot@crowdin.com>
+          branch: crowdin-contributors/patch
